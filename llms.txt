@@ -1,0 +1,6 @@
+# Defense Before Fix
+
+> The US spelling of Defence Before Fix. This site is a signpost; nothing is published here.
+
+- [Canonical llms.txt](https://defence-before-fix.github.io/llms.txt)
+- [Project prompt for agents](https://defence-before-fix.github.io/defence-before-fix-project-prompt.md)

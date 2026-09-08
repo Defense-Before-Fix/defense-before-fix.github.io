@@ -78,10 +78,30 @@ def local_path(remote: str) -> Path:
     return Path(remote.lstrip("/"))
 
 
+RAW_SIGNPOST = """# International spelling redirect: {heading}
+
+Defense Before Fix is the US spelling of Defence Before Fix. Nothing is published under this
+spelling. The document you want is at:
+
+{target}
+
+{blurb}
+
+Index of everything on the canonical site: {canonical}{agent_index}
+"""
+
+
 def main() -> None:
     data = load()
     root = Path(__file__).parent
     canonical = data["canonical_url"].rstrip("/")
+    agent_index = data.get("agent_index", "/llms.txt")
+    (root / agent_index.lstrip("/")).write_text(
+        f"# {data['us_name']}\n\n> The US spelling of {data['name']}. This site is a signpost; "
+        f"nothing is published here.\n\n- [Canonical llms.txt]({canonical}{agent_index})\n"
+        f"- [Project prompt for agents]({canonical}/defence-before-fix-project-prompt.md)\n"
+    )
+    print(f"wrote {agent_index.lstrip('/')} -> {canonical}{agent_index}")
     nav = "\n".join(
         f'      <a href="{canonical}{p["path"]}">{p["nav"]}</a>'
         for p in data["pages"]
@@ -90,6 +110,18 @@ def main() -> None:
     for page in data["pages"]:
         out = root / local_path(page["path"])
         out.parent.mkdir(parents=True, exist_ok=True)
+        if page["path"].endswith(".md"):
+            out.write_text(
+                RAW_SIGNPOST.format(
+                    heading=page["heading"],
+                    target=f"{canonical}{page['path']}",
+                    blurb=page["blurb"],
+                    canonical=canonical,
+                    agent_index=agent_index,
+                )
+            )
+            print(f"wrote {out.relative_to(root)} -> {canonical}{page['path']} (raw markdown)")
+            continue
         title = page["title"]
         heading = page["heading"]
         out.write_text(
