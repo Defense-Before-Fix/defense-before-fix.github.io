@@ -31,7 +31,7 @@ TEMPLATE = """<!DOCTYPE html>
 </head>
 <body>
   <header class="site-header">
-    <p class="site-title"><a href="{home}">{us_name}</a></p>
+    <p class="site-title"><a href="{canonical}/">{name}</a></p>
     <nav aria-label="Canonical site">
 {nav}
     </nav>
@@ -89,8 +89,6 @@ def main() -> None:
     for page in data["pages"]:
         out = root / local_path(page["path"])
         out.parent.mkdir(parents=True, exist_ok=True)
-        depth = len(out.relative_to(root).parts) - 1
-        home = "../" * depth + "index.html" if depth else "./"
         title = page["title"]
         heading = data["us_name"] if page["path"] == "/" else title[0].upper() + title[1:]
         out.write_text(
@@ -102,7 +100,6 @@ def main() -> None:
                 blurb=page["blurb"],
                 target=f"{canonical}{page['path']}",
                 stylesheet=f"{canonical}{data['stylesheet']}",
-                home=home,
                 nav=nav,
                 author=data["author"]["name"],
                 author_url=data["author"]["url"],
