@@ -52,8 +52,9 @@ TEMPLATE = """<!DOCTYPE html>
     </div>
   </main>
   <footer class="site-footer">
-    <p>Method specification {method} and toolchain specification {toolchain}, both published
-      {published}. Canonical site: <a href="{canonical}/">{canonical_host}</a>.
+    <p>Method specification {method}, detector specification {detector} and toolchain
+      specification {toolchain}, published {published}.
+      Canonical site: <a href="{canonical}/">{canonical_host}</a>.
       Licensed under <a href="{licence_url}">{licence}</a>.</p>
   </footer>
 </body>
@@ -144,6 +145,7 @@ def main() -> None:
                 canonical=canonical,
                 canonical_host=canonical.removeprefix("https://"),
                 method=data["versions"]["method"],
+                detector=data["versions"]["detector"],
                 toolchain=data["versions"]["toolchain"],
                 published=data["versions"]["published"],
                 licence=data["licence"]["name"],
