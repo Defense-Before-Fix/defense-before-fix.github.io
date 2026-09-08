@@ -25,7 +25,7 @@ TEMPLATE = """<!DOCTYPE html>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
-  <title>{us_name} (US spelling): {title}</title>
+  <title>International spelling redirect page for: {heading}</title>
   <link rel="canonical" href="{target}">
   <link rel="stylesheet" href="{stylesheet}">
 </head>
@@ -35,12 +35,13 @@ TEMPLATE = """<!DOCTYPE html>
     <nav aria-label="Canonical site">
 {nav}
     </nav>
-    <p class="site-byline">The US spelling of {name}, a method by
+    <p class="site-byline">{name} is a method by
       <a href="{author_url}">{author}</a> of
-      <a href="{org_url}">{org}</a>. First published {coined}.</p>
+      <a href="{org_url}">{org}</a>, first published {coined}.</p>
   </header>
   <main>
     <div class="disambiguation">
+      <p class="site-byline">International spelling redirect page for:</p>
       <h1>{heading}</h1>
       <p>{definition} It is published under the British spelling; this site exists so that the
         US spelling finds the right place.</p>
@@ -90,7 +91,7 @@ def main() -> None:
         out = root / local_path(page["path"])
         out.parent.mkdir(parents=True, exist_ok=True)
         title = page["title"]
-        heading = data["us_name"] if page["path"] == "/" else title[0].upper() + title[1:]
+        heading = page["heading"]
         out.write_text(
             TEMPLATE.format(
                 us_name=data["us_name"],
