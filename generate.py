@@ -10,7 +10,6 @@ from pathlib import Path
 
 CANONICAL = "https://defence-before-fix.github.io"
 
-# (path on this site, path on the canonical site, human title)
 # (path on this site, path on the canonical site, human title, what the reader will find there)
 PAGES = [
     ("index.html", "/", "Defence Before Fix",
