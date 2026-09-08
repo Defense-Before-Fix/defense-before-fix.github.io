@@ -31,11 +31,11 @@ TEMPLATE = """<!DOCTYPE html>
 </head>
 <body>
   <header class="site-header">
-    <p class="site-title"><a href="{canonical}/">{name}</a></p>
+    <p class="site-title"><a href="{canonical}/">{name} ({short})</a></p>
     <nav aria-label="Canonical site">
 {nav}
     </nav>
-    <p class="site-byline">{name} is a method by
+    <p class="site-byline">{name} ({short}) is a method by
       <a href="{author_url}">{author}</a> of
       <a href="{org_url}">{org}</a>, first published {coined}.</p>
   </header>
@@ -128,6 +128,7 @@ def main() -> None:
             TEMPLATE.format(
                 us_name=data["us_name"],
                 name=data["name"],
+                short=data.get("short", "DBF"),
                 title=title,
                 heading=heading,
                 blurb=page["blurb"],
